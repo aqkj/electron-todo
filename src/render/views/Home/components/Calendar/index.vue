@@ -129,7 +129,9 @@ function getDateBadgeType(date: Date): TbadgeType {
  * 更新model值
  * @param {Date} val 时间
  */
-function updateModelValue(val) {
+function updateModelValue(val: Date) {
+  val.setHours(0, 0, 0, 999)
+  console.log('updateModelValue', val)
   // commit
   store.commit(UPDATE_CURRENT_DATE, val)
 }
@@ -137,7 +139,7 @@ function updateModelValue(val) {
  * 更新当前时间
  * @param {Date} date 时间
  */
-function updateNowDate(date) {
+function updateNowDate(date: Date) {
   // commit
   store.commit(UPDATE_NOW_DATE, date)
 }

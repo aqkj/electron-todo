@@ -2,14 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const electron_1 = require("electron");
 const config_1 = require("./config");
+const window_1 = require("./window");
 let win = null;
 electron_1.ipcMain.handle('showManage', event => {
     return new Promise(resolve => {
         if (win) {
+            win.show();
             win.focus();
         }
         else {
-            win = new electron_1.BrowserWindow({
+            win = (0, window_1.createWindow)({
                 width: 800,
                 height: 600,
                 // 标题栏样式
@@ -31,12 +33,9 @@ electron_1.ipcMain.handle('showManage', event => {
                     // 预加载路径
                     preload: config_1.defaultPreloadPath
                 }
-            });
-            win.loadFile(`${config_1.defaultHtmlPath}`, {
-                hash: '#/manage'
-            });
-            win.show();
-            win.on('close', () => {
+            }, '#/manage');
+            win.removeAllListeners('close');
+            win.addListener('close', () => {
                 win = null;
             });
             resolve(0);

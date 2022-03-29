@@ -4,13 +4,15 @@ import {
   defaultHtmlPath,
   defaultPreloadPath
 } from './config'
+import { createWindow } from './window'
 let win: BrowserWindow = null
 ipcMain.handle('showManage', event => {
   return new Promise(resolve => {
     if (win) {
+      win.show()
       win.focus()
     } else {
-      win = new BrowserWindow({
+      win = createWindow({
         width: 800,
         height: 600,
         // 标题栏样式
@@ -32,12 +34,9 @@ ipcMain.handle('showManage', event => {
           // 预加载路径
           preload: defaultPreloadPath
         }
-      })
-      win.loadFile(`${defaultHtmlPath}`, {
-        hash: '#/manage'
-      })
-      win.show()
-      win.on('close', () => {
+      }, '#/manage')
+      win.removeAllListeners('close')
+      win.addListener('close', () => {
         win = null
       })
       resolve(0)

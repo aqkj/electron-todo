@@ -5,6 +5,7 @@ import { Notification } from 'electron'
 import { getTodosFromDate } from '../../public/todos'
 import { ICompleteDateMap, ITodoItem } from '../../public/types'
 import { store } from '../store'
+import { updateTitle } from '../tray'
 // 下一次通知的时间
 let nextToastHours = 0
 
@@ -92,6 +93,12 @@ export function checkTodosAndNotification() {
   const [start, end] = getDateRange(notFinishedList)
   // 获取当前小时数
   const hour = date.getHours()
+  // 判断是否存在未完成的任务
+  if (notFinishedList.length) {
+    updateTitle(`今日任务剩余(${notFinishedList.length}/${todoList.length})`)
+  } else {
+    updateTitle(`今日已完成 明日继续努力`)
+  }
   // 判断当前时间是否当下一次通知时间/超过时间/如果都完成了，则不处理
   if (hour !== nextToastHours || date < start || date > end || !notFinishedList.length) {
     console.log('当前时间不在下次通知时间内')

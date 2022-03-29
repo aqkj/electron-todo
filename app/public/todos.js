@@ -9,6 +9,7 @@ exports.getTodosFromDate = void 0;
  * @returns {ITodoItem[]} 返回对应时间的任务
  */
 function getTodosFromDate(todoList, date) {
+    date.setHours(0, 0, 0, 999);
     return todoList.filter(todo => {
         const [startDate, endDate] = todo.dateRange;
         const week = date.getDay();

@@ -10,6 +10,7 @@ import { ITodoItem } from "./types"
  * @returns {ITodoItem[]} 返回对应时间的任务
  */
 export function getTodosFromDate(todoList: ITodoItem[], date: Date) {
+  date.setHours(0, 0, 0, 999)
   return todoList.filter(todo => {
     const [startDate, endDate] = todo.dateRange
     const week = date.getDay()

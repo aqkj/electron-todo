@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const electron_1 = require("electron");
 const update_1 = require("./update");
+const tray_1 = require("./tray");
 require("./menu");
 require("./store");
 const window_1 = require("./window");
@@ -15,4 +16,6 @@ electron_1.app.whenReady().then(() => {
     (0, window_1.initWindow)();
     // 初始化更新
     (0, update_1.initUpdate)();
+    // 初始化托盘图标
+    (0, tray_1.initTray)();
 });

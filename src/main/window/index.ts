@@ -9,14 +9,15 @@ import {
   defaultWindowHeight,
   defaultWindowWidth
 } from './config'
-
-
+import { closeOtherWindow, createWindow } from './window'
+// 主窗口全局变量
+let mainWindow: BrowserWindow = null
 /**
  * 初始化窗口
  */
 export function initWindow() {
   // 创建窗口
-  const win = new BrowserWindow({
+  mainWindow = createWindow({
     // 宽度
     width: defaultWindowWidth,
     maxWidth: defaultWindowWidth,
@@ -43,8 +44,25 @@ export function initWindow() {
       preload: defaultPreloadPath
     }
   })
-  // 加载html
-  win.loadFile(defaultHtmlPath)
-  // win.webContents.openDevTools()
-  return win
+  // 主窗口隐藏时把其他窗口都进行关闭
+  mainWindow.on('hide', () => {
+    // 关闭其他窗口
+    closeOtherWindow(mainWindow)
+  })
+  return mainWindow
+}
+
+/**
+ * 切换显示
+ * @param {boolean} isShow 是否显示
+ */
+export function toggleMainWindow() {
+  // 是否可见
+  if (mainWindow.isVisible()) {
+    // 隐藏
+    mainWindow.hide()
+  } else {
+    // 显示
+    mainWindow.show()
+  }
 }

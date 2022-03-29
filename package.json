@@ -35,6 +35,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.1",
     "element-plus": "^2.0.5",
+    "lodash": "^4.17.21",
     "vue": "^3.2.25",
     "vue-router": "^4.0.14"
   },
@@ -49,6 +50,9 @@
       "src/preload"
     ],
     "ext": "ts",
+    "env": {
+      "NODE_ENV": "development"
+    },
     "exec": "tsc && electron ."
   }
 }
