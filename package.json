@@ -1,0 +1,54 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./app/main/index.js",
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && electron-builder"
+  },
+  "keywords": [],
+  "author": "邹志强 <465633678@qq.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.2.0",
+    "electron": "^17.1.2",
+    "electron-builder": "^22.14.13",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
+    "nodemon": "^2.0.15",
+    "typescript": "^4.6.2",
+    "unplugin-auto-import": "^0.6.1",
+    "unplugin-vue-components": "^0.17.21",
+    "vite": "^2.8.0",
+    "vite-plugin-resolve": "^1.8.0",
+    "vue-tsc": "^0.29.8",
+    "vuex": "^4.0.2"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^1.1.1",
+    "dayjs": "^1.11.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.0.1",
+    "element-plus": "^2.0.5",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.14"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "node_modules",
+      "out",
+      "dist"
+    ],
+    "watch": [
+      "src/main",
+      "src/preload"
+    ],
+    "ext": "ts",
+    "exec": "tsc && electron ."
+  }
+}
