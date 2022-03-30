@@ -19,7 +19,7 @@ import Footer from './components/Footer/index.vue'
 .home{
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 30px);
   .el-calendar{
     --el-calendar-border: none;
     --el-calendar-cell-width: 45px;

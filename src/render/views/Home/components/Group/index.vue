@@ -23,6 +23,9 @@ const props = defineProps<{
   padding:0 16px;
   margin-top: 10px;
   box-sizing: border-box;
+  &:last-child{
+    padding-bottom: 10px;
+  }
   &__title{
     font-size: 16px;
     color: #305c71;

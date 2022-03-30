@@ -11,10 +11,10 @@ import { initWindow } from './window'
 // console.log()
 // 准备就绪
 app.whenReady().then(() => {
+  // 初始化托盘图标
+  initTray()
   // 初始化窗口
   initWindow()
   // 初始化更新
   initUpdate()
-  // 初始化托盘图标
-  initTray()
 })
