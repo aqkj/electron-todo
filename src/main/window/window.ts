@@ -2,6 +2,7 @@
 import { BrowserWindow } from 'electron'
 import { isDev } from '../env'
 import { defaultHtmlPath } from './config'
+import { willQuit } from '../index'
 // 加载路径方式，根据环境显示
 const loadFunKey = isDev ? 'loadURL' : 'loadFile'
 // 暂存窗口
@@ -26,10 +27,14 @@ export function createWindow(options: Electron.BrowserWindowConstructorOptions, 
   windows.add(win)
   // 检测关闭，移除
   win.addListener('close', e => {
-    // 阻止默认事件
-    e.preventDefault()
-    // 隐藏窗口
-    win.hide()
+    console.log(willQuit, win.isFocused(), win.isFocusable(), win.focusable)
+    // 判断是否聚焦
+    if (!willQuit) {
+      // 阻止默认事件
+      e.preventDefault()
+      // 隐藏窗口
+      win.hide()
+    }
   })
   // 判断是否关闭，关闭则删除
   win.addListener('closed', () => {

@@ -26,6 +26,7 @@ export function initWindow() {
     height: defaultWindowHeight,
     // 标题栏样式
     titleBarStyle: 'hidden',
+    alwaysOnTop: true,
     // titleBarOverlay: true,
     // 禁止缩放
     fullscreenable: false,
