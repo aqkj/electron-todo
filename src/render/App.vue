@@ -39,5 +39,6 @@ onMounted(async () => {
   height: 100%;
   /* background-color: #fff; */
   box-shadow: 0 0 10px 0;
+  overflow: hidden;
 }
 </style>

@@ -73,17 +73,12 @@ const selectedDayTodos = computed(() => {
   display: none; /* Chrome Safari */
 }
 .content{
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
   border-top: 1px solid #e1e1e1;
-  padding-bottom: 40px;
+  // padding-bottom: 40px;
   box-sizing: border-box;
   overflow: scroll;
-  height: 0;
-  // background-color: #ddd;
   position: relative;
+  height: calc(100% - 402px);
   .el-empty{
     position: absolute;
     left: 50%;
