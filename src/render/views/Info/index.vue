@@ -46,9 +46,9 @@
         <el-color-picker v-model="form.color" :predefine="predefineColors" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">创建事项</el-button>
+        <el-button type="primary" @click="onSubmit">{{ isEdit ? '保存' : '创建' }}事项</el-button>
         <el-button @click="cancel">取消</el-button>
-        <el-button @click="clear">清空事项</el-button>
+        <!-- <el-button @click="clear">清空事项</el-button> -->
       </el-form-item>
     </el-form>
     <!-- <template #footer>
@@ -61,11 +61,11 @@
 </template>
 <script lang="ts" setup>
 import { ArrowLeft } from '@element-plus/icons-vue'
-import { computed, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router'
+import { computed, reactive, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { key } from '../../store'
-import { UPDATE_SHOW_INFO_DIALOG, UPDATE_TODO_LIST } from '../../store/modules/app';
+import { UPDATE_SHOW_INFO_DIALOG, UPDATE_TODO_LIST, UPDATE_TASK } from '../../store/modules/app';
 import MainStore from '../../utils/main/store'
 import { randomKey } from '../../utils/math';
 import { ITodoItem, daysList } from '../../../public/types'
@@ -114,9 +114,12 @@ const predefineColors = [
 ]
 // 获取router
 const router = useRouter()
+const route = useRoute()
 const store = useStore(key)
 // 当前时间
 const currentDate = computed(() => store.state.app.currentDate)
+// 存在id则为编辑
+const isEdit = computed(() => !!route.query.key)
 // 默认时间范围
 const defaultDateRange = computed(() => {
   const start = new Date(currentDate.value)
@@ -153,33 +156,71 @@ const rule = {
     { required: true, message: '请输入时间范围', trigger: 'blur' }
   ]
 }
+// 获取todolist
 const todoList = computed(() => store.state.app.todoList)
+// 监控是否
+watch(() => isEdit.value, newVal => {
+  if (newVal) {
+    getDetail()
+  }
+}, {
+  immediate: true
+})
 /**
  * 提交
  */
 const onSubmit = async () => {
   console.log('submit!')
   console.log(form)
-  form.key = randomKey()
-  form.dateRange[0].setHours(0, 0, 0, 0)
-  form.dateRange[1].setHours(23, 59, 59, 999)
-  // 获取列表
-  const list = todoList.value.slice()
-  // 插入
-  list.push(form)
-  // 更新
-  updateTodoList(list)
-  ElMessage.success('添加任务成功')
+  form.key = form.key || randomKey()
+  if (form.dateRange[0] instanceof Date) {
+    form.dateRange[0].setHours(0, 0, 0, 0)
+    form.dateRange[1].setHours(23, 59, 59, 999)
+  }
+  // 是否是编辑
+  if (isEdit.value) {
+    // 更新任务
+    updateTodo(form)
+    ElMessage.success('任务修改成功')
+  } else {
+    // 获取列表
+    const list = todoList.value.slice()
+    // 插入
+    list.push(form)
+    // 更新
+    updateTodoList(list)
+    ElMessage.success('添加任务成功')
+  }
   cancel()
 }
 function clear() {
   updateTodoList([])
 }
 /**
+ * 获取详情
+ */
+function getDetail() {
+  const { key } = route.query
+  // 获取对应数据
+  const item = todoList.value.find(todo => todo.key === key)
+  // 判断是否存在
+  if (item) {
+    // 遍历赋值
+    for (const key in item) {
+      form[key] = item[key]
+    }
+  }
+}
+/**
  * 更新事项列表
- * @param list 列表
+ * @param {ITodoItem[]} list 列表
  */
 const updateTodoList = (list: ITodoItem[]) => store.commit(UPDATE_TODO_LIST, list)
+/**
+ * 更新事项
+ * @param {ITodoItem} item 列表
+ */
+const updateTodo = (item: ITodoItem) => store.commit(UPDATE_TASK, item)
 /**
  * 取消
  */

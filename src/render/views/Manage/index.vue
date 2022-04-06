@@ -32,8 +32,15 @@
           {{ dayjs(scope.row.time[1]).format('HH:mm:ss') }}
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="60">
+      <el-table-column fixed="right" label="操作" width="100">
         <template #default="scope">
+          <el-button
+            type="text"
+            size="small"
+            @click.prevent="edit(scope.row)"
+          >
+            编辑
+          </el-button>
           <el-button
             type="text"
             size="small"
@@ -74,8 +81,21 @@ function del(todo: ITodoItem) {
       type: 'warning',
     }
   ).then(() => {
+    // 删除任务
     deleteTask(todo.key)
     ElMessage.success('删除成功')
+  })
+}
+/**
+ * 编辑事项
+ * @param {ITodoItem} todo 任务
+ */
+function edit(todo: ITodoItem) {
+  router.push({
+    name: 'Info',
+    query: {
+      key: todo.key
+    }
   })
 }
 /**

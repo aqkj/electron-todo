@@ -20,6 +20,8 @@ ipcMain.handle('showManage', event => {
         // titleBarOverlay: true,
         // 禁止缩放
         fullscreenable: false,
+        // 是否显示在最前方
+        alwaysOnTop: true,
         // 任务栏中显示
         skipTaskbar: true,
         // 背景透明

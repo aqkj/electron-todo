@@ -12,6 +12,8 @@ export const UPDATE_TODO_LIST = 'updateTodoList'
 export const COMPLETE_TASK = 'completeTask'
 /** 删除任务 */
 export const DELETE_TASK = 'deleteTask'
+/** 更新任务 */
+export const UPDATE_TASK = 'updateTask'
 /** 更新完成日期数据 */
 export const UPDATE_COMPLETE_DATE_MAP = 'updateCompleteDateMap'
 /** 更新当前时间 */
@@ -119,6 +121,23 @@ export default {
        */
       if (index !== -1) {
         state.todoList.splice(index, 1)
+        MainStore.set('todoList', JSON.stringify(state.todoList))
+      }
+    },
+    /**
+     * 更新任务
+     * @param state 状态
+     * @param key 任务key
+     */
+    [UPDATE_TASK](state: IAppState, form: ITodoItem) {
+      const { key } = form
+      // 查找位置
+      const index = state.todoList.findIndex(todo => todo.key === key)
+      /**
+       * 判断是否存在
+       */
+      if (index !== -1) {
+        state.todoList[index] = form
         MainStore.set('todoList', JSON.stringify(state.todoList))
       }
     }
