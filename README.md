@@ -1,6 +1,9 @@
 # electron-todo
 electron开发的事项管理软件
 
+## 页面图片
+![image](https://github.com/aqkj/electron-todo/blob/master/1.png)
+
 ## 更新日志
 
  - 2022-04-06 新增编辑任务逻辑，移除清空任务按钮
